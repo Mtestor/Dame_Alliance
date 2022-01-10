@@ -1,0 +1,1 @@
+Ceci est un projet de jeu de dame "Alliance" fait en Python avec Pygame.
