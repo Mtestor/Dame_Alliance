@@ -1,8 +1,7 @@
 import pygame
-from numpy import full
 from enum import IntEnum
-
-from pygame import draw
+import GameMap as gm
+from Pawn import *
 
 WINDOW_HEIGHT = 900
 WINDOW_LENGHT = 800
@@ -14,39 +13,102 @@ UNIT_CASE_BLACK = pygame.Color(0, 128, 1)
 PAWN_BLACK = pygame.Color(50, 40, 5)
 PAWN_WHITE = pygame.Color(246, 246, 234)
 PAWN_RADIUS = (UNIT_CASE_SIZE - 10) // 2
+PAWN_TYPE_COLOR = pygame.Color(111, 111, 52)
+PAWN_TYPE_WIDTH = 11
+PAWN_TYPE_LENGHT = PAWN_RADIUS - 20
+
+gm.init()
 
 ROW = 8
 COlOMN = 8
 
-#class UnitCasePawn(IntEnum):
-#    NOBODY = 0
-#    BLACK = 1
-#    WHITE = 2
-#
-#gameMap = full((ROW, COlOMN), UnitCasePawn.NOBODY)
-
 def inv_unitCaseColor(unitCaseColor):
     if (unitCaseColor == UNIT_CASE_BLACK):
         return UNIT_CASE_WHITE
-    elif (unitCaseColor ==  UNIT_CASE_WHITE):
+    if (unitCaseColor ==  UNIT_CASE_WHITE):
         return UNIT_CASE_BLACK
     assert(False and "Une case est soit blanc soit noir")
 
-def draw_background():
+def draw_background(display):
     actualColor = UNIT_CASE_BLACK
     for r in range(ROW):
         actualColor = inv_unitCaseColor(actualColor)
         for c in range(COlOMN):
-            screen.fill(actualColor, (r * UNIT_CASE_SIZE, c * UNIT_CASE_SIZE, UNIT_CASE_SIZE, UNIT_CASE_SIZE))
+            display.fill(actualColor, (r * UNIT_CASE_SIZE, c * UNIT_CASE_SIZE, UNIT_CASE_SIZE, UNIT_CASE_SIZE))
             actualColor = inv_unitCaseColor(actualColor)
+
 
 def center_unitCase(pos : tuple):
     assert(len(pos) == 2 and "La position est un tuple de taille 2")
     return (pos[1] * UNIT_CASE_SIZE + UNIT_CASE_SIZE // 2, pos[0] * UNIT_CASE_SIZE + UNIT_CASE_SIZE //2)
 
-def draw_pawn(surface, pos : tuple, c : pygame.Color):
-    center = center_unitCase(pos)
+def draw_pawn_base(surface, center, c : pygame.Color):
     pygame.draw.circle(surface, c, center, PAWN_RADIUS)
+
+def rigth_part_points(center, type : PawnType):
+    if type == PawnType.HORIZONTAL:
+        return((center[0] + PAWN_TYPE_WIDTH, center[1]) , 
+            (center[0] + PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT, center[1]))
+    if type == PawnType.DIAGONAL:
+        return((center[0] + int(PAWN_TYPE_WIDTH * 0.7), center[1] + int(PAWN_TYPE_WIDTH * 0.7)) , 
+            (center[0] + int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7), center[1] + int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7)))
+
+def left_part_points(center, type : PawnType):
+    if type == PawnType.HORIZONTAL:
+        return((center[0] - PAWN_TYPE_WIDTH, center[1]), 
+            (center[0] - PAWN_TYPE_WIDTH - PAWN_TYPE_LENGHT, center[1]))
+    if type == PawnType.DIAGONAL:
+        return((center[0] - int(PAWN_TYPE_WIDTH * 0.7), center[1] - int(PAWN_TYPE_WIDTH * 0.7)) , 
+            (center[0] - int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7), center[1] - int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7)))
+
+def top_part_points(center, type : PawnType):
+    if type == PawnType.HORIZONTAL:
+        return((center[0], center[1] + PAWN_TYPE_WIDTH), 
+            (center[0], center[1] + PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT))
+    if type == PawnType.DIAGONAL:
+        return((center[0] + int(PAWN_TYPE_WIDTH * 0.7), center[1] - int(PAWN_TYPE_WIDTH * 0.7)) , 
+            (center[0] + int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7), center[1] - int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7)))
+
+def bottom_part_points(center, type : PawnType):
+    if type == PawnType.HORIZONTAL:
+        return((center[0], center[1] - PAWN_TYPE_WIDTH), 
+            (center[0], center[1] - PAWN_TYPE_WIDTH - PAWN_TYPE_LENGHT))
+    if type == PawnType.DIAGONAL:
+        return((center[0] - int(PAWN_TYPE_WIDTH * 0.7), center[1] + int(PAWN_TYPE_WIDTH * 0.7)) , 
+            (center[0] - int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7), center[1] + int(PAWN_TYPE_WIDTH + PAWN_TYPE_LENGHT * 0.7)))
+
+def draw_pawn_type(surface, center, type : PawnType):
+    if type == PawnType.ROYAL:
+        return
+    rigthPart = rigth_part_points(center, type)
+    leftPart = left_part_points(center, type)
+    topPart = top_part_points(center, type)
+    bottomPart = bottom_part_points(center, type)
+
+    pygame.draw.line(surface, PAWN_TYPE_COLOR ,rigthPart[0], rigthPart[1], PAWN_TYPE_WIDTH)
+    pygame.draw.line(surface, PAWN_TYPE_COLOR ,leftPart[0], leftPart[1], PAWN_TYPE_WIDTH)
+    pygame.draw.line(surface, PAWN_TYPE_COLOR ,topPart[0], topPart[1], PAWN_TYPE_WIDTH)
+    pygame.draw.line(surface, PAWN_TYPE_COLOR ,bottomPart[0], bottomPart[1], PAWN_TYPE_WIDTH)
+
+def draw_pawn(surface, pos, c : pygame.Color, type : PawnType):
+    center = center_unitCase(pos)
+    draw_pawn_base(surface, center, c)
+    draw_pawn_type(surface, center, type)
+
+
+def pawnColor_to_color(pc : PawnColor):
+    if (pc == PawnColor.WHITE):
+        return PAWN_WHITE
+    if (pc == PawnColor.BLACK):
+        return PAWN_BLACK
+    assert(False and "You didn't give a drawable pawnColor")
+
+def draw_map(surface):
+    for r in range(gm.ROW_MAX):
+        for c in range(gm.COLOMN_MAX):
+            p = gm.gameMap[r,c]
+            if (p != None):
+                draw_pawn(surface, (r, c), pawnColor_to_color(p.m_color), p.m_type)
 
 pygame.init()
 
@@ -62,7 +124,7 @@ while not IS_GAMELOOP_STOPPED:
         if event.type == pygame.QUIT:
             IS_GAMELOOP_STOPPED = True
 
-    draw_background()
-    draw_pawn(screen, (1, 2), PAWN_BLACK)
+    draw_background(screen)
+    draw_map(screen)
     pygame.display.flip()
-    fpsLimiter.tick(30)
+    fpsLimiter.tick(10)
