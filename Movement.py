@@ -1,5 +1,7 @@
 from typing import Tuple
-from Pawn import *
+
+import Pawn as pw
+import PawnMovePredicat as pwmp
 import GameMap as gm
 
 def is_pos_in_border(pos : Tuple):
@@ -18,3 +20,22 @@ def is_pos_free(pos : Tuple):
         return True
     else:
         return False
+
+def is_movement_respect_predicat(posBegin : Tuple, posEnd : Tuple, pawnT : pw.PawnType):
+    for predicat in pwmp.pawnMovePredicat[pawnT]:
+        if predicat(posBegin, posEnd):
+            return True
+
+def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
+    if not is_pos_in_border(posBegin):
+        return False
+    if is_pos_free(posBegin):
+        return False
+    if not is_pos_in_border(posEnd):
+        return False
+    if is_pos_free(posEnd):
+        return False
+    pawn = gm.gameMap[posBegin]
+    if is_movement_respect_predicat(posBegin, posEnd, pawn.m_type):
+        return True
+    return False
