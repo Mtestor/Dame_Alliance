@@ -12,3 +12,9 @@ def is_pos_in_border(pos : Tuple):
     if pos[1] > gm.COLOMN_MAX:
         return False
     return True
+
+def is_pos_free(pos : Tuple):
+    if gm.gameMap[pos] == None:
+        return True
+    else:
+        return False
