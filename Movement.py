@@ -33,7 +33,7 @@ def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
         return False
     if not is_pos_in_border(posEnd):
         return False
-    if is_pos_free(posEnd):
+    if not is_pos_free(posEnd):
         return False
     pawn = gm.gameMap[posBegin]
     if is_movement_respect_predicat(posBegin, posEnd, pawn.m_type):
