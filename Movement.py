@@ -15,14 +15,17 @@ def is_pos_in_border(pos : Tuple):
         return False
     return True
 
+# @pre pos is a valid position in gm.gameMap
 def is_pos_free(pos : Tuple):
     if gm.gameMap[pos] == None:
         return True
     else:
         return False
 
-def is_movement_respect_predicat(posBegin : Tuple, posEnd : Tuple, pawnT : pw.PawnType):
-    for predicat in pwmp.pawnMovePredicat[pawnT]:
+# @pre there is a pawn at posBegin
+def is_movement_respect_predicat(posBegin : Tuple, posEnd : Tuple):
+    pawn = gm.gameMap[posBegin]
+    for predicat in pwmp.pawnMovePredicat[pawn.m_type]:
         if predicat(posBegin, posEnd):
             return True
 
@@ -35,7 +38,6 @@ def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
         return False
     if not is_pos_free(posEnd):
         return False
-    pawn = gm.gameMap[posBegin]
-    if is_movement_respect_predicat(posBegin, posEnd, pawn.m_type):
+    if is_movement_respect_predicat(posBegin, posEnd):
         return True
     return False
