@@ -8,3 +8,7 @@ for k in pw.PawnType:
 pawnMovePredicat[pw.PawnType.HORIZONTAL].append(pwmpi.is_horizontal_pawn_deplacement)
 pawnMovePredicat[pw.PawnType.DIAGONAL].append(pwmpi.is_diagonal_pawn_deplacement)
 pawnMovePredicat[pw.PawnType.ROYAL].append(pwmpi.is_royal_pawn_deplacement)
+
+pawnMovePredicat[pw.PawnType.HORIZONTAL].append(pwmpi.is_horizontal_pawn_capture)
+pawnMovePredicat[pw.PawnType.DIAGONAL].append(pwmpi.is_diagonal_pawn_capture)
+pawnMovePredicat[pw.PawnType.ROYAL].append(pwmpi.is_royal_pawn_capture)
