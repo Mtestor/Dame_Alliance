@@ -41,3 +41,7 @@ def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
     if is_movement_respect_predicat(posBegin, posEnd):
         return True
     return False
+
+def move_pawn_to(posBegin : tuple, posEnd : tuple):
+    gm.gameMap[posEnd] = gm.gameMap[posBegin]
+    gm.gameMap[posBegin] = None

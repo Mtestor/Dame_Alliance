@@ -1,7 +1,10 @@
+from types import prepare_class
 import pygame
 from enum import IntEnum
 import GameMap as gm
 from Pawn import *
+import InputProcess as inp
+import PlayerState as ps
 
 WINDOW_HEIGHT = 900
 WINDOW_LENGHT = 800
@@ -103,9 +106,11 @@ def pawnColor_to_color(pc : PawnColor):
         return PAWN_BLACK
     assert(False and "You didn't give a drawable pawnColor")
 
-def draw_map(surface):
-    for r in range(gm.ROW_MAX):
-        for c in range(gm.COLOMN_MAX):
+def draw_map(surface, player : ps.PlayerState):
+    if player.m_isPawnChoosed:
+        pygame.draw.circle(surface, pygame.Color('red'), center_unitCase(player.m_pawnPos), PAWN_RADIUS + 2)
+    for r in range(gm.ROW_MAX + 1):
+        for c in range(gm.COLOMN_MAX + 1):
             p = gm.gameMap[r,c]
             if (p != None):
                 draw_pawn(surface, (r, c), pawnColor_to_color(p.m_color), p.m_type)
@@ -115,16 +120,20 @@ pygame.init()
 screen = pygame.display.set_mode((WINDOW_LENGHT, WINDOW_HEIGHT), 0)
 pygame.display.set_caption("Dame Alliance")
 
-IS_GAMELOOP_STOPPED = False
+isGameloopStopped = False
 fpsLimiter = pygame.time.Clock()
+player = ps.PlayerState(PawnColor.WHITE)
 
-while not IS_GAMELOOP_STOPPED:
+while not isGameloopStopped:
 
-    for event in pygame.event.get():
+    event_list = pygame.event.get()
+    for event in event_list:
         if event.type == pygame.QUIT:
-            IS_GAMELOOP_STOPPED = True
+            isGameloopStopped = True
+    
+    inp.process(event_list, player)
 
     draw_background(screen)
-    draw_map(screen)
+    draw_map(screen, player)
     pygame.display.flip()
-    fpsLimiter.tick(10)
+    fpsLimiter.tick(30)
