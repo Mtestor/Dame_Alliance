@@ -10,5 +10,5 @@ def init():
     gameMap[1,1:7] = Pawn(PawnColor.BLACK, PawnType.HORIZONTAL)
     gameMap[2,1:7] = Pawn(PawnColor.BLACK, PawnType.DIAGONAL)
 
-    gameMap[5,1:7] = Pawn(PawnColor.WHITE, PawnType.HORIZONTAL)
-    gameMap[6,1:7] = Pawn(PawnColor.WHITE, PawnType.DIAGONAL)
+    gameMap[5,1:7] = Pawn(PawnColor.WHITE, PawnType.DIAGONAL)
+    gameMap[6,1:7] = Pawn(PawnColor.WHITE, PawnType.HORIZONTAL)
