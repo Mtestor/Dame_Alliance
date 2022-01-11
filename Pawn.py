@@ -13,10 +13,6 @@ class PawnType(IntEnum):
 class Pawn:
     """ Class that represent a pawn"""
 
-    def __init__(self, color : PawnColor, type : PawnType):
+    def __init__(self, color = PawnColor.NONE, type = PawnType.ROYAL):
         self.m_color = color
         self.m_type = type
-    
-    def __init__(self):
-        self.m_color = PawnColor.NONE
-        self.m_type = PawnType.ROYAL
