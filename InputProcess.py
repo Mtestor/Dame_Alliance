@@ -25,7 +25,15 @@ def movement_process(pos, player : ps.PlayerState):
         Movement.move_pawn_to(player.m_pawnPos, pos)
         player.m_pawnPos = pos
         return
+
+    capture = Movement.which_capture(player.m_pawnPos, pos)
+    if capture != None:
+        Movement.pawn_capture(player.m_pawnPos, pos, capture)
+        player.m_pawnPos = pos
+        return 
+        
     player.m_isPawnChoosed = False
+    
 
 def click_input_process(mousePos, player : ps.PlayerState):
     pos = mousePos_to_mapPos(mousePos)

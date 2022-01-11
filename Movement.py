@@ -3,6 +3,7 @@ from typing import Tuple
 import Pawn as pw
 import PawnMovePredicat as pwmp
 import GameMap as gm
+import PawnCapture as pwc
 
 def is_pos_in_border(pos : Tuple):
     if pos[0] < 0:
@@ -29,7 +30,7 @@ def is_movement_respect_predicat(posBegin : Tuple, posEnd : Tuple):
         if predicat(posBegin, posEnd):
             return True
 
-def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
+def are_position_correct(posBegin : tuple, posEnd : tuple):
     if not is_pos_in_border(posBegin):
         return False
     if is_pos_free(posBegin):
@@ -38,10 +39,28 @@ def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
         return False
     if not is_pos_free(posEnd):
         return False
+    return True
+
+def is_movement_legal(posBegin : Tuple, posEnd : Tuple):
+    if not are_position_correct(posBegin, posEnd):
+        return False
     if is_movement_respect_predicat(posBegin, posEnd):
         return True
     return False
 
+def which_capture(posBegin : Tuple, posEnd : Tuple):
+    if not are_position_correct(posBegin, posEnd):
+        return None
+    pawn = gm.gameMap[posBegin]
+    for captureCouple in pwc.pawnCapture[pawn.m_type]:
+        if captureCouple[0](posBegin, posEnd):
+            return captureCouple[1]
+    return None
+
 def move_pawn_to(posBegin : tuple, posEnd : tuple):
     gm.gameMap[posEnd] = gm.gameMap[posBegin]
     gm.gameMap[posBegin] = None
+
+def pawn_capture(posBegin : tuple, posEnd : tuple, capture):
+    move_pawn_to(posBegin, posEnd)
+    capture(posBegin, posEnd)
