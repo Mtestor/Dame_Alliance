@@ -16,3 +16,7 @@ class Pawn:
     def __init__(self, color : PawnColor, type : PawnType):
         self.m_color = color
         self.m_type = type
+    
+    def __init__(self):
+        self.m_color = PawnColor.NONE
+        self.m_type = PawnType.ROYAL
