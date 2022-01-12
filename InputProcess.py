@@ -4,6 +4,7 @@ import PlayerState as ps
 import Pawn as pw
 import Movement
 import GameMap as gm
+import SaveReload as sr
 
 UNIT_CASE_SIZE = 100
 
@@ -36,6 +37,10 @@ def movement_process(pos, player : ps.PlayerState):
     if capture != None:
         Movement.pawn_capture(player.m_pawnPos, pos, capture)
         player.m_pawnPos = pos
+        if not player.m_hasCaptured:
+            player.m_score = 1
+        else:
+            player.m_score *= 2
         player.m_hasMoved = True
         player.m_hasCaptured = True
         return 
@@ -43,6 +48,7 @@ def movement_process(pos, player : ps.PlayerState):
     player.m_isPawnChoosed = False
     
 def end_turn(player : ps.PlayerState):
+    gm.gameMapState.add_score(player.m_color, player.m_score)
     player.reset(pw.inv_pawnColor(player.m_color))
 
 def gui_process(pos, player : ps.PlayerState):

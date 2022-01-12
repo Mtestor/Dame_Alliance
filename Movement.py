@@ -59,10 +59,10 @@ def which_capture(posBegin : Tuple, posEnd : Tuple):
 
 def move_pawn_to(posBegin : tuple, posEnd : tuple):
     gm.gameMap[posEnd] = gm.gameMap[posBegin]
-    if gm.gameMap[posEnd].m_color == pw.PawnColor.BLACK and posEnd[0] == gm.ROW_MAX:
+    if (gm.gameMap[posEnd].m_color == pw.PawnColor.BLACK and posEnd[0] == gm.ROW_MAX or \
+       gm.gameMap[posEnd].m_color == pw.PawnColor.WHITE and posEnd[0] == 0):
         gm.gameMap[posEnd].m_type = pw.PawnType.ROYAL
-    if gm.gameMap[posEnd].m_color == pw.PawnColor.WHITE and posEnd[0] == 0:
-        gm.gameMap[posEnd].m_type = pw.PawnType.ROYAL
+        gm.gameMapState.add_royal_pawn(gm.gameMap[posEnd].m_color)
     gm.gameMap[posBegin] = None
 
 def pawn_capture(posBegin : tuple, posEnd : tuple, capture):

@@ -9,6 +9,7 @@ class PlayerState:
         self.m_pawnPos = None
         self.m_hasMoved = False
         self.m_hasCaptured = False
+        self.m_score = 0
 
     def reset(self, color : pw.PawnColor):
         self.__init__(color)

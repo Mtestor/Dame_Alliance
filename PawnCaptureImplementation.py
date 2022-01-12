@@ -64,6 +64,8 @@ def capture_between_two_distance_cases(posBegin : tuple, posEnd : tuple):
     # pos[0] is row and pos[1] is colomn because of gm.gameMap
     row = posBegin[0] + (posEnd[0] - posBegin[0]) // 2
     colomn = posBegin[1] + (posEnd[1] - posBegin[1]) // 2
+    pawn = gm.gameMap[row, colomn]
+    gm.gameMapState.remove_pawn(pawn.m_color, pawn.m_type)
     gm.gameMap[row, colomn] = None
 
 def horizontal_pawn_capture(posBegin : tuple, posEnd : tuple):

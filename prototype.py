@@ -135,6 +135,8 @@ pygame.init()
 screen = pygame.display.set_mode((WINDOW_LENGHT, WINDOW_HEIGHT), 0)
 pygame.display.set_caption("Dame Alliance")
 
+GAME_FONT = pygame.font.SysFont("Arial", 24)
+
 isGameloopStopped = False
 fpsLimiter = pygame.time.Clock()
 player = ps.PlayerState(PawnColor.WHITE)
@@ -152,5 +154,14 @@ while not isGameloopStopped:
     draw_background(screen)
     draw_map(screen, player)
     draw_gui(screen, player)
+   
+    text_surface_black = GAME_FONT.render(str(gm.gameMapState.m_BlackScore), False, PAWN_BLACK)
+    text_surface_white = GAME_FONT.render(str(gm.gameMapState.m_WhiteScore), False, PAWN_WHITE)
+    screen.blit(text_surface_white, (1 * UNIT_CASE_SIZE, (gm.ROW_MAX + 1) * UNIT_CASE_SIZE))
+    screen.blit(text_surface_black, (3 * UNIT_CASE_SIZE, (gm.ROW_MAX + 1) * UNIT_CASE_SIZE))
+
+    if gm.gameMapState.number_pawn(PawnColor.BLACK) == 0 or gm.gameMapState.number_pawn(PawnColor.WHITE) == 0:
+        screen.fill(pygame.Color('red'))
+    
     pygame.display.flip()
     fpsLimiter.tick(30)
