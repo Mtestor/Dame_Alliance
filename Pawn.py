@@ -16,3 +16,17 @@ class Pawn:
     def __init__(self, color = PawnColor.NONE, type = PawnType.ROYAL):
         self.m_color = color
         self.m_type = type
+    
+def inv_pawnColor(pawnColor : PawnColor):
+    if pawnColor == PawnColor.BLACK:
+        return PawnColor.WHITE
+    if pawnColor == PawnColor.WHITE:
+        return PawnColor.BLACK
+    return pawnColor
+
+def inv_pawnType(pawnType : PawnType):
+    if pawnType == PawnType.DIAGONAL:
+        return PawnType.HORIZONTAL
+    if pawnType == PawnType.HORIZONTAL:
+        return PawnType.DIAGONAL
+    return pawnType

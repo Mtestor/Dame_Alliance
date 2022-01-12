@@ -1,3 +1,4 @@
+from pygame.constants import NOEVENT
 import GameMap as gm
 import Pawn as pw
 
@@ -5,15 +6,23 @@ def is_horizontal_pawn_capture(posBegin : tuple, posEnd : tuple):
     # pos[0] is row and pos[1] is colomn because of gm.gameMap
     pawnC = gm.gameMap[posBegin].m_color
     if posBegin[0] == posEnd[0] and posBegin[1] + 2 == posEnd[1]:
+        if gm.gameMap[(posBegin[0], posBegin[1] + 1)] == None:
+            return False
         if gm.gameMap[(posBegin[0], posBegin[1] + 1)].m_color != pawnC:
             return True
-    if posBegin[0] == posEnd[0] and posBegin[1] - 2 == posEnd[1]:
+    elif posBegin[0] == posEnd[0] and posBegin[1] - 2 == posEnd[1]:
+        if gm.gameMap[(posBegin[0], posBegin[1] - 1)] == None:
+                return False
         if gm.gameMap[(posBegin[0], posBegin[1] - 1)].m_color != pawnC:
             return True
-    if posBegin[0] + 2 == posEnd[0] and posBegin[1] == posEnd[1]:
+    elif posBegin[0] + 2 == posEnd[0] and posBegin[1] == posEnd[1]:
+        if gm.gameMap[(posBegin[0] + 1, posBegin[1])] == None:
+            return False
         if gm.gameMap[(posBegin[0] + 1, posBegin[1])].m_color != pawnC:
             return True
-    if posBegin[0] - 2 == posEnd[0] and posBegin[1] == posEnd[1]:
+    elif posBegin[0] - 2 == posEnd[0] and posBegin[1] == posEnd[1]:
+        if gm.gameMap[(posBegin[0] - 1, posBegin[1])] == None:
+            return False
         if gm.gameMap[(posBegin[0] - 1, posBegin[1])].m_color != pawnC:
             return True
     return False
@@ -22,15 +31,23 @@ def is_diagonal_pawn_capture(posBegin : tuple, posEnd : tuple):
     # pos[0] is row and pos[1] is colomn because of gm.gameMap
     pawnC = gm.gameMap[posBegin].m_color
     if posBegin[0] + 2 == posEnd[0] and posBegin[1] + 2 == posEnd[1]:
+        if gm.gameMap[(posBegin[0] + 1, posBegin[1] + 1)] == None:
+            return False
         if gm.gameMap[(posBegin[0] + 1, posBegin[1] + 1)].m_color != pawnC:
             return True
-    if posBegin[0] + 2 == posEnd[0] and posBegin[1] - 2 == posEnd[1]:
+    elif posBegin[0] + 2 == posEnd[0] and posBegin[1] - 2 == posEnd[1]:
+        if gm.gameMap[(posBegin[0] + 1, posBegin[1] - 1)] == None:
+            return False
         if gm.gameMap[(posBegin[0] + 1, posBegin[1] - 1)].m_color != pawnC:
             return True
-    if posBegin[0] - 2 == posEnd[0] and posBegin[1] - 2 == posEnd[1]:
+    elif posBegin[0] - 2 == posEnd[0] and posBegin[1] - 2 == posEnd[1]:
+        if gm.gameMap[(posBegin[0] - 1, posBegin[1] - 1)] == None:
+            return False
         if gm.gameMap[(posBegin[0] - 1, posBegin[1] - 1)].m_color != pawnC:
             return True
-    if posBegin[0] - 2 == posEnd[0] and posBegin[1] + 2 == posEnd[1]:
+    elif posBegin[0] - 2 == posEnd[0] and posBegin[1] + 2 == posEnd[1]:
+        if gm.gameMap[(posBegin[0] - 1, posBegin[1] + 1)] == None:
+            return False
         if gm.gameMap[(posBegin[0] - 1, posBegin[1] + 1)].m_color != pawnC:
             return True
     return False

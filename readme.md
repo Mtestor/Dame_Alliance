@@ -6,3 +6,6 @@ Click on a pawn to choose it
 Click on a to the case you want to move to move it  
 Clicking on a case on which you can't move, unchoose the pawn    
 If you pass on a pawn of a different color you capture it (there are nothing eat them all)   
+Click on red square after moving to change type and end turn
+Click on blue triangle to just end turn   
+The circle in bottom left is indicating who play  

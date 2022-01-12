@@ -1,6 +1,7 @@
-from types import prepare_class
 import pygame
 from enum import IntEnum
+
+from pygame.version import PygameVersion
 import GameMap as gm
 from Pawn import *
 import InputProcess as inp
@@ -115,6 +116,20 @@ def draw_map(surface, player : ps.PlayerState):
             if (p != None):
                 draw_pawn(surface, (r, c), pawnColor_to_color(p.m_color), p.m_type)
 
+def triangle_points_around_center(center : tuple):
+    rigth_part_points = (center[0] + UNIT_CASE_SIZE // 2, center[1])
+    top_part_points = (center[0] - UNIT_CASE_SIZE // 2, center[1] - UNIT_CASE_SIZE // 2)
+    bottom_part_points = (center[0] - UNIT_CASE_SIZE // 2, center[1] + UNIT_CASE_SIZE // 2)
+    return(top_part_points, rigth_part_points, bottom_part_points)
+
+def draw_gui(surface, player : ps.PlayerState):
+    posColorPlayer = (gm.ROW_MAX + 1, 0)
+    pygame.draw.circle(surface, pawnColor_to_color(player.m_color), center_unitCase(posColorPlayer), PAWN_RADIUS)
+    posEndTurn = (gm.ROW_MAX + 1, gm.COLOMN_MAX)
+    pygame.draw.polygon(surface, pygame.Color('darkblue'), triangle_points_around_center(center_unitCase(posEndTurn)))
+    posChangeType = (gm.ROW_MAX + 1, 3)
+    surface.fill(pygame.Color('red'), (posChangeType[1] * UNIT_CASE_SIZE + 5, posChangeType[0] * UNIT_CASE_SIZE + 5, UNIT_CASE_SIZE - 10, UNIT_CASE_SIZE - 10))
+
 pygame.init()
 
 screen = pygame.display.set_mode((WINDOW_LENGHT, WINDOW_HEIGHT), 0)
@@ -133,7 +148,9 @@ while not isGameloopStopped:
     
     inp.process(event_list, player)
 
+    screen.fill(pygame.Color('black'))
     draw_background(screen)
     draw_map(screen, player)
+    draw_gui(screen, player)
     pygame.display.flip()
     fpsLimiter.tick(30)

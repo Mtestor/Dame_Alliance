@@ -7,3 +7,8 @@ class PlayerState:
         self.m_color = color
         self.m_isPawnChoosed = False
         self.m_pawnPos = None
+        self.m_hasMoved = False
+        self.m_hasCaptured = False
+
+    def reset(self, color : pw.PawnColor):
+        self.__init__(color)
