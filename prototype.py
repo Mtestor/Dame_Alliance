@@ -127,7 +127,7 @@ def draw_gui(surface, player : ps.PlayerState):
     pygame.draw.circle(surface, pawnColor_to_color(player.m_color), center_unitCase(posColorPlayer), PAWN_RADIUS)
     posEndTurn = (gm.ROW_MAX + 1, gm.COLOMN_MAX)
     pygame.draw.polygon(surface, pygame.Color('darkblue'), triangle_points_around_center(center_unitCase(posEndTurn)))
-    posChangeType = (gm.ROW_MAX + 1, 3)
+    posChangeType = (gm.ROW_MAX + 1, gm.COLOMN_MAX - 1)
     surface.fill(pygame.Color('red'), (posChangeType[1] * UNIT_CASE_SIZE + 5, posChangeType[0] * UNIT_CASE_SIZE + 5, UNIT_CASE_SIZE - 10, UNIT_CASE_SIZE - 10))
 
 pygame.init()

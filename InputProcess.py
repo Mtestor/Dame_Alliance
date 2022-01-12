@@ -46,9 +46,9 @@ def end_turn(player : ps.PlayerState):
     player.reset(pw.inv_pawnColor(player.m_color))
 
 def gui_process(pos, player : ps.PlayerState):
-    if pos[1] == gm.COLOMN_MAX:
+    if pos[1] == gm.COLOMN_MAX and player.m_hasMoved:
         end_turn(player)
-    elif pos[1] == 3 and player.m_isPawnChoosed and player.m_hasMoved:
+    elif pos[1] == gm.COLOMN_MAX - 1 and player.m_isPawnChoosed and player.m_hasMoved:
         pawn = gm.gameMap[player.m_pawnPos]
         pawn.m_type = pw.inv_pawnType(pawn.m_type)
         end_turn(player)
