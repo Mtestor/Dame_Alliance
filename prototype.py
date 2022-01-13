@@ -6,6 +6,7 @@ import GameMap as gm
 from Pawn import *
 import InputProcess as inp
 import PlayerState as ps
+import SaveReload as sr
 
 WINDOW_HEIGHT = 900
 WINDOW_LENGHT = 800
@@ -22,6 +23,9 @@ PAWN_TYPE_WIDTH = 11
 PAWN_TYPE_LENGHT = PAWN_RADIUS - 20
 
 gm.init()
+
+if sr.do_save_exist(): 
+    sr.load()
 
 ROW = 8
 COlOMN = 8
