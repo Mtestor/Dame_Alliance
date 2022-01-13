@@ -1,10 +1,10 @@
-from numpy import true_divide
 import pygame
 import PlayerState as ps
 import Pawn as pw
 import Movement
 import GameMap as gm
 import SaveReload as sr
+import WinningCondition as wc
 
 UNIT_CASE_SIZE = 100
 
@@ -50,6 +50,8 @@ def movement_process(pos, player : ps.PlayerState):
 def end_turn(player : ps.PlayerState):
     gm.gameMapState.add_score(player.m_color, player.m_score)
     player.reset(pw.inv_pawnColor(player.m_color))
+    if wc.have_win(player.m_color):
+        gm.gameMapState.end_game(player.m_color)
     sr.save()
 
 def gui_process(pos, player : ps.PlayerState):
@@ -59,10 +61,24 @@ def gui_process(pos, player : ps.PlayerState):
         pawn = gm.gameMap[player.m_pawnPos]
         pawn.m_type = pw.inv_pawnType(pawn.m_type)
         end_turn(player)
+    elif pos[1] == gm.COLOMN_MAX - 2 and not player.m_hasMoved:
+        if wc.is_early_endable():
+            gm.gameMapState.want_to_end_early(True)
+            end_turn()
     return
+
+def early_end_process(pos, player : ps.PlayerState):
+    if pos[0] == gm.ROW_MAX + 1:
+        if pos[1] == gm.COLOMN_MAX:
+            gm.gameMapState.want_to_end_early(False)
+            end_turn(player)
+        elif pos[1] == gm.COLOMN_MAX - 2:
+            gm.gameMapState.end_game(wc.winner_early_end())
 
 def click_input_process(mousePos, player : ps.PlayerState):
     pos = mousePos_to_mapPos(mousePos)
+    if gm.gameMapState.do_want_to_end_early():
+        early_end_process(pos, player)
     if pos[0] == gm.ROW_MAX + 1:
         gui_process(pos, player)
     if player.m_isPawnChoosed:

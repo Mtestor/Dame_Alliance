@@ -7,6 +7,7 @@ from Pawn import *
 import InputProcess as inp
 import PlayerState as ps
 import SaveReload as sr
+import End
 
 WINDOW_HEIGHT = 900
 WINDOW_LENGHT = 800
@@ -22,7 +23,7 @@ PAWN_TYPE_COLOR = pygame.Color(111, 111, 52)
 PAWN_TYPE_WIDTH = 11
 PAWN_TYPE_LENGHT = PAWN_RADIUS - 20
 
-gm.init()
+gm.init(gm.gameMapState)
 
 if sr.do_save_exist(): 
     sr.load()
@@ -133,6 +134,8 @@ def draw_gui(surface, player : ps.PlayerState):
     pygame.draw.polygon(surface, pygame.Color('darkblue'), triangle_points_around_center(center_unitCase(posEndTurn)))
     posChangeType = (gm.ROW_MAX + 1, gm.COLOMN_MAX - 1)
     surface.fill(pygame.Color('red'), (posChangeType[1] * UNIT_CASE_SIZE + 5, posChangeType[0] * UNIT_CASE_SIZE + 5, UNIT_CASE_SIZE - 10, UNIT_CASE_SIZE - 10))
+    posEarlyEnd = (gm.ROW_MAX + 1, gm.COLOMN_MAX - 2)
+    surface.fill(pygame.Color('purple'), (posEarlyEnd[1] * UNIT_CASE_SIZE + 5, posEarlyEnd[0] * UNIT_CASE_SIZE + 5, UNIT_CASE_SIZE - 10, UNIT_CASE_SIZE - 10))
 
 pygame.init()
 
@@ -147,12 +150,15 @@ player = ps.PlayerState(PawnColor.WHITE)
 
 while not isGameloopStopped:
 
-    event_list = pygame.event.get()
-    for event in event_list:
+    eventList = pygame.event.get()
+    for event in eventList:
         if event.type == pygame.QUIT:
             isGameloopStopped = True
     
-    inp.process(event_list, player)
+    if not gm.gameMapState.is_game_ended():
+        inp.process(eventList, player)
+    else:
+        End.process(eventList, gm.gameMapState)
 
     screen.fill(pygame.Color('black'))
     draw_background(screen)
@@ -166,6 +172,9 @@ while not isGameloopStopped:
 
     if gm.gameMapState.number_pawn(PawnColor.BLACK) == 0 or gm.gameMapState.number_pawn(PawnColor.WHITE) == 0:
         screen.fill(pygame.Color('red'))
+        gm.init(gm.gameMapState)
+        player = ps.PlayerState(PawnColor.WHITE)
+        sr.save()
     
     pygame.display.flip()
     fpsLimiter.tick(30)
