@@ -50,6 +50,7 @@ def movement_process(pos, player : ps.PlayerState):
 def end_turn(player : ps.PlayerState):
     gm.gameMapState.add_score(player.m_color, player.m_score)
     player.reset(pw.inv_pawnColor(player.m_color))
+    sr.save()
 
 def gui_process(pos, player : ps.PlayerState):
     if pos[1] == gm.COLOMN_MAX and player.m_hasMoved:
