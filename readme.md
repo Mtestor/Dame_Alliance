@@ -9,3 +9,5 @@ If you pass on a pawn of a different color you capture it (there are nothing eat
 Click on red square after moving to change type and end turn
 Click on blue triangle to just end turn   
 The circle in bottom left is indicating who play  
+The game is automatically saved on the end of each turn   
+If you have a save, when launched the game will use it so delete it if want to restart
