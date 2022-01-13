@@ -16,6 +16,12 @@ class Pawn:
     def __init__(self, color = PawnColor.NONE, type = PawnType.ROYAL):
         self.m_color = color
         self.m_type = type
+
+    def to_json(self) -> dict:
+        return {
+            "color" : str(self.m_color),
+            "type"  : str(self.m_type)
+        }
     
 def inv_pawnColor(pawnColor : PawnColor):
     if pawnColor == PawnColor.BLACK:
