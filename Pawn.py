@@ -36,3 +36,24 @@ def inv_pawnType(pawnType : PawnType):
     if pawnType == PawnType.HORIZONTAL:
         return PawnType.DIAGONAL
     return pawnType
+
+def pawnType_from_json(jsoned) -> PawnType:
+    if jsoned == 'PawnType.ROYAL':
+        return PawnType.ROYAL
+    if jsoned == 'PawnType.HORIZONTAL':
+        return PawnType.HORIZONTAL
+    if jsoned == 'PawnType.DIAGONAL':
+        return PawnType.DIAGONAL
+    assert(False and "There is no other PawnType")
+
+def pawnColor_from_json(jsoned) -> PawnColor:
+    if jsoned == 'PawnColor.BLACK':
+        return PawnColor.BLACK
+    if jsoned == 'PawnColor.WHITE':
+        return PawnColor.WHITE
+    if jsoned == 'PawnColor.NONE':
+        return PawnColor.NONE
+    assert(False and "There is no other PawnColor")
+
+def pawn_from_json(jsoned):
+    return Pawn(pawnColor_from_json(jsoned['color']), pawnType_from_json(jsoned['type']))
