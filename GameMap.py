@@ -1,10 +1,21 @@
-from numpy import full
+from numpy import RankWarning, full
 from Pawn import *
 
 ROW_MAX = 7
 COLOMN_MAX = 7
 
 gameMap = full((ROW_MAX + 1, COLOMN_MAX + 1), None)
+
+def gameMap_to_json():
+    jsoned = list()
+    for r in range(ROW_MAX + 1):
+        jsoned.append(list())
+        for c in range(COLOMN_MAX + 1):
+            if gameMap[r,c] == None:
+                jsoned[r].append(None)
+            else:
+                jsoned[r].append(gameMap[r,c].to_json())
+    return jsoned
 
 class GameMapState:
     """Hold the state of the gameMap"""
@@ -50,6 +61,20 @@ class GameMapState:
 
     def reset(self):
         self.__init__
+
+    def to_json(self):
+        return {
+            "black" : [
+                self.m_BlackNormalPawn,
+                self.m_BlackRoyalPawn,
+                self.m_BlackScore
+            ],
+            "white" : [
+                self.m_WhiteNormalPawn,
+                self.m_WhiteRoyalPawn,
+                self.m_WhiteScore
+            ]
+        }
 
 gameMapState = GameMapState()
 
