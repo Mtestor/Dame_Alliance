@@ -31,6 +31,7 @@ pygame.display.set_caption("Dame Alliance")
 isGameloopStopped = False
 fpsLimiter = pygame.time.Clock()
 GAME_FONT = pygame.font.SysFont("Arial", 24)
+END_FONT = pygame.font.SysFont("Arial", 48)
 
 while not isGameloopStopped:
 
@@ -45,7 +46,7 @@ while not isGameloopStopped:
         EndProcess.process(eventList, highScore, player)
 
     if gm.gameMapState.is_game_ended():
-        ed.draw_end(screen, GAME_FONT, highScore)
+        ed.draw_end(screen, END_FONT, highScore)
     else:
         gd.draw_game(screen, player, GAME_FONT)
     

@@ -30,7 +30,7 @@ def find_pos_to_insert(highScore):
     return len(highScore)
 
 def enter_name_in_highScore(highScore : list):
-    if len(highScore) > 9:
+    if len(highScore) > 5:
         highScore.pop()
     index = find_pos_to_insert(highScore)
     highScore.insert(index, (gm.gameMapState.m_winnerName, gm.gameMapState.score(gm.gameMapState.m_winnerColor)))
