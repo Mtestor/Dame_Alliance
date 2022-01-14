@@ -13,3 +13,11 @@ class PlayerState:
 
     def reset(self, color : pw.PawnColor):
         self.__init__(color)
+
+    def to_json(self):
+        return {
+            "color" : str(self.m_color),
+        }
+
+def player_from_json(jsoned) -> PlayerState:
+    return PlayerState(pw.pawnColor_from_json(jsoned['color']))

@@ -24,9 +24,10 @@ PAWN_TYPE_WIDTH = 11
 PAWN_TYPE_LENGHT = PAWN_RADIUS - 20
 
 gm.init(gm.gameMapState)
+player = ps.PlayerState(PawnColor.WHITE)
 
 if sr.do_save_exist(): 
-    sr.load()
+    player = sr.load()
 
 ROW = 8
 COlOMN = 8
@@ -146,7 +147,7 @@ GAME_FONT = pygame.font.SysFont("Arial", 24)
 
 isGameloopStopped = False
 fpsLimiter = pygame.time.Clock()
-player = ps.PlayerState(PawnColor.WHITE)
+
 
 while not isGameloopStopped:
 

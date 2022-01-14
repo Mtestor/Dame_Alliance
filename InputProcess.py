@@ -52,7 +52,7 @@ def end_turn(player : ps.PlayerState):
     player.reset(pw.inv_pawnColor(player.m_color))
     if wc.have_win(player.m_color):
         gm.gameMapState.end_game(player.m_color)
-    sr.save()
+    sr.save(player)
 
 def gui_process(pos, player : ps.PlayerState):
     if pos[1] == gm.COLOMN_MAX and player.m_hasMoved:
