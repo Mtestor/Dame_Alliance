@@ -49,9 +49,9 @@ def movement_process(pos, player : ps.PlayerState):
     
 def end_turn(player : ps.PlayerState):
     gm.gameMapState.add_score(player.m_color, player.m_score)
-    player.reset(pw.inv_pawnColor(player.m_color))
     if wc.have_win(player.m_color):
         gm.gameMapState.end_game(player.m_color)
+    player.reset(pw.inv_pawnColor(player.m_color))
     sr.save(player)
 
 def gui_process(pos, player : ps.PlayerState):

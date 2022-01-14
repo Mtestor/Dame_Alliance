@@ -12,7 +12,7 @@ def save(player : ps.PlayerState):
     with open('save', 'w') as fSave:
         json.dump(jsoned, fSave, indent=4)
 
-def do_save_exist():
+def do_save_exist() -> bool:
     return os.path.isfile('save')
 
 def load() -> ps.PlayerState:
@@ -23,3 +23,15 @@ def load() -> ps.PlayerState:
     gm.gameMapState = gm.gameMapState_from_json(jsoned['gameMapState'])
     return ps.player_from_json(jsoned['playerState'])
     
+def do_highScore_exist() -> bool:
+    return os.path.isfile('highScore')
+
+def highScore_save(highScore : list):
+    with open('highScore', 'w') as fHighScore:
+        json.dump(highScore, fHighScore, indent=4)
+
+def highScore_load() -> list:
+    jsoned = []
+    with open('highScore', 'r') as fHighScore:
+        jsoned = json.load(fHighScore)
+    return jsoned

@@ -82,11 +82,19 @@ class GameMapState:
         return self.m_wantToEarlyEnd
     
     def want_to_end_early(self, choice : bool):
-        self.want_to_end_early = choice
+        self.m_wantToEarlyEnd = choice
 
     def end_game(self, playerColor : pw.PawnColor):
         self.m_winnerColor = playerColor
         self.m_isGameEnded = True
+
+    def score(self, playerColor : pw.PawnColor) -> int:
+        if playerColor == pw.PawnColor.BLACK:
+            return self.m_BlackScore
+        elif playerColor == pw.PawnColor.WHITE:
+            return self.m_WhiteScore
+        else:
+            return max(self.m_BlackScore, self.m_WhiteScore)
 
     def is_game_ended(self):
         return self.m_isGameEnded
