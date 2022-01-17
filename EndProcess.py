@@ -36,7 +36,7 @@ def enter_name_in_highScore(highScore : list):
     highScore.insert(index, (gm.gameMapState.m_winnerName, gm.gameMapState.score(gm.gameMapState.m_winnerColor)))
     sr.highScore_save(highScore)
 
-def process(eventList : list[pygame.event.Event], highScore : list, player : ps.PlayerState):
+def process(eventList, highScore : list, player : ps.PlayerState):
     for event in eventList:
         if event.type == KEYUP:
             if event.key == pl.K_RETURN:
